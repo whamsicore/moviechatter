@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app='movieChatter'>
+  <head>
+    <meta charset="utf-8" />
+    <title>MovieChatter</title>
+    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    
+    <!--<script src="https://cdn.socket.io/socket.io-1.3.6.js"></script>-->
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-route/angular-route.js"></script>
+
+    <!-- Include my stuff -->
+
+    <script src="http://www.youtube.com/player_api"></script>
+    <script src="app/app.js"></script>
+  
+  </head>
+  <body>
+    <h1>MovieChatter</h1>
+    
+    <div id="player" ng-controller='playerController'> </div>
+    
+    <div id="chatBox" ng-controller='chatController'>
+        <!-- <div id = 'username'></div> -->
+        <form>
+          <input ng-model='username' placeholder='username' class='text' type='text' name='username' class='username'>
+          <input ng-model='message' placeholder='enter a message!' class='text' type='text' name='message' class='message'>
+          <input type='submit' value='Shorten' ng-click = "submitMessage();">
+        </form>
+
+        <div id='messageBox'>
+            <div ng-repeat="message in messages"> 
+              {{message.username}}: {{message.text}} 
+            </div>        
+
+        </div> <!-- messages -->
+    </div> <!-- chatBox -->
+   
+
+    <!-- the ng-view directive is where our templates will be loaded into when naviagted to -->
+    <!-- <div ng-view></div> -->
+
+    <!-- Legacy material
+
+    <script src="app/auth/auth.js"></script>
+    <script src="app/links/links.js"></script>
+    <script src="app/shorten/shorten.js"></script>
+    <script src="app/services/services.js"></script>
+
+    -->
+
+  </body>
+</html>

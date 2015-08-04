@@ -8,17 +8,18 @@ module.exports = {
       res.send(JSON.stringify(messages));
     });
   },
-  addNew: function(req, res){
-    var username = req.body.username;
-    var message = req.body.message;
-    // console.log("Server -----> inside of messageController.addNew(). username=", username);
-    console.log("Server -----> inside of messageController.addNew(). message=", message);
+  addNew: function(data, callback){
+    var username = data.username;
+    var message = data.message;
 
     var newMessage = new Message({username:username, text: message});
     newMessage.save(function(err, newMsg){
       console.log(newMsg.text);
 
+      callback(newMsg);
+
     });
+
     // var result = Message.find({}.function(){
     //   console.log("Server -----> inside of messageController.retrieve(). ", result);
     //   res.end(result);
