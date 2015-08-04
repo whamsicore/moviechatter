@@ -16,15 +16,51 @@
     <script src="lib/angular-route/angular-route.js"></script>
 
     <!-- Include my stuff -->
+    <script src="app/app.js"></script>
 
     <script src="http://www.youtube.com/player_api"></script>
     <script src="app/app.js"></script>
   
+
+    
   </head>
   <body>
     <h1>MovieChatter</h1>
     
-    <div id="player" ng-controller='playerController'> </div> <!-- player -->
+    <div id="player" ng-controller='playerController'> 
+      <script>
+        // create youtube player
+        // var player;
+        // function onYouTubePlayerAPIReady() {
+        //     player = new YT.Player('player', {
+        //       height: '500',
+        //       width: '640',
+        //       playerVars: { 'controls': 1, 'start': 10 },
+        //       videoId: '0Bmhjf0rKe8',
+        //       time: '10s',
+        //       events: {
+        //         'onReady': onPlayerReady,
+        //         'onStateChange': onPlayerStateChange
+        //       }
+        //     }); //player
+        // } //onYoutubePlayer
+
+        // // autoplay video
+        // function onPlayerReady(event) {
+        //     event.target.playVideo();
+        // }
+
+        // console.log('test:'+{{testVar}});
+        // // when video ends
+        // // function onPlayerStateChange(event) {        
+        // //     if(event.data === 0) {            
+        // //         alert('done');
+        // //     }
+        // // }
+          
+      </script>
+      <p ng-bind-html="myHTML"></p>
+    </div> <!-- player -->
     
     <div id="chatBox" ng-controller='chatController'>
         <!-- <div id = 'username'></div> -->

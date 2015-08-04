@@ -13,8 +13,7 @@ require('./serverIO')(io);
 
 mongoose.connect('mongodb://localhost/moviechatter'); // connect to mongo database named shortly
 
-
-routes(app);
+routes(app); //apply routes via express
 
 /********* LEGACY **************/
 // configure our server with all the middleware and and routing
