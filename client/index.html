@@ -24,7 +24,7 @@
   <body>
     <h1>MovieChatter</h1>
     
-    <div id="player" ng-controller='playerController'> </div>
+    <div id="player" ng-controller='playerController'> </div> <!-- player -->
     
     <div id="chatBox" ng-controller='chatController'>
         <!-- <div id = 'username'></div> -->
@@ -35,7 +35,7 @@
         </form>
 
         <div id='messageBox'>
-            <div ng-repeat="message in messages"> 
+            <div ng-repeat="message in messages "> 
               {{message.username}}: {{message.text}} 
             </div>        
 
