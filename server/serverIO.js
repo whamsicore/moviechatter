@@ -12,10 +12,10 @@ module.exports = function(io){
     // join main chatroom
     // socket.join('lobby');
 
-    socket.on('CSnewMsg', function(data) {
+    socket.on('cs-newmsg', function(data) {
       console.log('SocketIO ------> data = ', data);
       messageController.addNew(data, function(newMsg){
-        socket.emit('SCnewMsg', newMsg);
+        socket.emit('sc-newmsg', newMsg);
 
       });
       // messages.push(data);
