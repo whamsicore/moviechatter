@@ -20,7 +20,6 @@
     <script src="app/app.js"></script>
 
     <script src="http://www.youtube.com/player_api"></script>
-    <script src="./youtube.js"></script>
     
     <script>
     //create youtube player
@@ -34,7 +33,12 @@
     <h1>MovieChatter</h1>
       <!-- <p ng-bind-html="myHTML"></p> -->
     
-    <div id="player" ng-controller='playerController'> 
+    <div id="playerBox" ng-controller='playerController'> 
+        <script src="./youtube.js"></script>
+        <h1> {{ room.updated_at }} </h1>
+        <div id="player"> </div>
+        
+
     </div> <!-- player -->
     
     <div id="chatBox" ng-controller='chatController'>

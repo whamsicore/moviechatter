@@ -4,7 +4,7 @@ Message = require('./messageModel');
 module.exports = {
   retrieve: function(req, res){
     Message.find({}).sort('-created_at').limit(10).exec(function(err, messages){
-      console.log("Server -----> inside of messageController.retrieve(). ", messages);
+      // console.log("Server -----> inside of messageController.retrieve(). ", messages);
       res.send(JSON.stringify(messages));
     });
   },

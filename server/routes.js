@@ -3,6 +3,7 @@ var bodyParser  = require('body-parser');
     // helpers     = require('./helpers.js'); // our custom middleware
 var express = require('express');
 var messageController = require('./messages/messageController');
+var roomController = require('./rooms/roomController');
 // var messageController = require('./messages/messageController');
 
 module.exports = function(app){
@@ -27,6 +28,20 @@ module.exports = function(app){
       // console.log('TEST ------> inside of message.get()');
       // res.end('hello world!'); 
       messageController.retrieve(req, res);
+    })
+    .post(function(req, res){ //add new message to database
+      // console.log('TEST ------> inside of message.post()');
+      
+      messageController.addNew(req, res)
+      // res.end('hello world!'); 
+    });
+
+  app.route('/room')
+    .get(function(req, res){ //retrieve last 10 messages
+
+      console.log('TEST ------> inside of message.get()');
+      // res.end('hello world!'); 
+      roomController.getLobby(req, res); //MVP: just get the Lobby
     })
     .post(function(req, res){ //add new message to database
       // console.log('TEST ------> inside of message.post()');

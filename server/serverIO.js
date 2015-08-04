@@ -1,4 +1,5 @@
 var messageController = require('./messages/messageController');
+var roomController = require('./rooms/roomController');
 
 module.exports = function(io){
   io.on('connection', function(socket) {
@@ -15,11 +16,16 @@ module.exports = function(io){
     socket.on('cs-newmsg', function(data) {
       console.log('SocketIO ------> data = ', data);
       messageController.addNew(data, function(newMsg){
-        socket.emit('sc-newmsg', newMsg);
-
+        io.sockets.emit('sc-newmsg', newMsg);
       });
+
       // messages.push(data);
       // io.to('lobby').emit('broadcast chat', data);
+    });
+
+    socket.on('cs-init', function(){
+      socket.emit('sc-init', {timeDiff: 600});
+
     });
 
     // when client request a channel change
