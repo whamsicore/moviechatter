@@ -32,5 +32,14 @@ module.exports = {
     // }); 
 
 
-  } //addNew()
+  }, //retrieve()
+  restartVideo: function(){
+    console.log("TEST ------> inside restartVideo");
+    Room.find({roomname:'Lobby'}, function(err, rooms){
+      var lobby = rooms[0];
+      lobby.save();
+
+    });
+    
+  } //restartVideo()
 } // module.exports

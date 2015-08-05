@@ -3,7 +3,7 @@
       player = new YT.Player('player', {
         height: '500',
         width: '640',
-        playerVars: { 'controls': 1, 'start': window.timeDiff },
+        playerVars: { 'controls': 0, 'start': window.timeDiff },
         videoId: 'nS68JH9lFEs',
         events: {
           'onReady': onPlayerReady,

@@ -2,6 +2,9 @@ var messageController = require('./messages/messageController');
 var roomController = require('./rooms/roomController');
 
 module.exports = function(io){
+
+  var usernames = {};
+
   io.on('connection', function(socket) {
     console.log('client connected: ', socket.id);
 
@@ -11,10 +14,25 @@ module.exports = function(io){
     // io.to(socket.id).emit('init', ['lobby', 'other']);
     
     // join main chatroom
-    // socket.join('lobby');
 
+    socket.on('signin', function(data){
+      var username = data.username;
+      socket.username = username; 
+      
+      socket.emit('signinComplete', {});
+
+    });
+    
+    
     socket.on('cs-newmsg', function(data) {
       console.log('SocketIO ------> data = ', data);
+      var username = data.username;
+      var message = data.message;
+
+      socket.join('lobby'); //join the current room
+      
+      usernames[username] = username; 
+
       messageController.addNew(data, function(newMsg){
         io.sockets.emit('sc-newmsg', newMsg);
       });
@@ -28,30 +46,8 @@ module.exports = function(io){
 
     });
 
-    // when client request a channel change
-    /*socket.on('channel change', function(channel) {
-      console.log(socket.id, ' wants to join channel: ', channel);
-      // if socket had a channel before, leave the channel
-      if (socket.lastChannel) {
-        socket.leave(socket.lastChannel);
-        socket.lastChannel = null;
-      } //if
-      socket.join(channel);
-      socket.lastChannel = channel;
-      // send last messages of current channel to socket
-      var channelMessages = _.filter(messages, function(item) {
-        if (item['chatroom'] === channel) {
-          return item;
-        }
-      })
-      io.to(socket.id).emit('channel rebuild', channelMessages);
-    }); //socket.on
-
-    socket.on('channel added', function(data) {
-      socket.emit('new channel', data);
-    }); //socket.on*/
-
     socket.on('disconnect', function() {
+      delete usernames[socket.username];
       console.log('client disconnected');
     }); //socket.on
 

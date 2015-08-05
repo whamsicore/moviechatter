@@ -2,7 +2,7 @@
 <html ng-app='movieChatter'>
   <head>
     <meta charset="utf-8" />
-    <title>MovieChatter</title>
+    <title> MovieChatter </title>
     <link rel="stylesheet" type="text/css" href="styles/style.css" />
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -31,8 +31,15 @@
   </head>
   <body>
     <h1>MovieChatter</h1>
-      <!-- <p ng-bind-html="myHTML"></p> -->
-    
+
+    <div id="signinForm" ng-controller='chatController' ng-show='showSignin'>
+        Give yourself a name!
+        <form>
+          <input ng-model='username' ng-click='username=""'placeholder='username' class='text' type='text' name='username' class='username'>
+          <input type='submit' value='Enter' ng-click = "submitUsername();">
+        </form>
+    </div> <!-- signinform -->
+
     <div id="playerBox" ng-controller='playerController'> 
         <script src="./youtube.js"></script>
         <h1> {{ room.updated_at }} </h1>
@@ -42,13 +49,13 @@
     </div> <!-- player -->
     
     <div id="chatBox" ng-controller='chatController'>
+        <h2>Hi {{username}}, welcome to chat!</h2>
         <!-- <div id = 'username'></div> -->
         <form>
-          <input ng-model='username' placeholder='username' class='text' type='text' name='username' class='username'>
+          <!--<input ng-model='username' placeholder='username' class='text' type='text' name='username' class='username'>-->
           <input ng-model='message' placeholder='enter a message!' class='text' type='text' name='message' class='message'>
-          <input type='submit' value='Shorten' ng-click = "submitMessage();">
+          <input type='submit' value='Say it!' ng-click = "submitMessage();">
         </form>
-
         <div id='messageBox'>
             <div ng-repeat="message in messages "> 
               {{message.username}}: {{message.text}} 
@@ -56,6 +63,11 @@
 
         </div> <!-- messages -->
     </div> <!-- chatBox -->
+
+
+    <div id = 'playerCover'>
+
+    </div> <!-- playerCover -->
    
 
     <!-- the ng-view directive is where our templates will be loaded into when naviagted to -->

@@ -25,17 +25,8 @@ angular.module('movieChatter', [])
       var roomData = resp.data;
       $scope.roomData = roomData;
 
-      var startTime = new Date(roomData.created_at).getTime(); 
-      var curTime = new Date().getTime();
-      var timeDiff = (curTime - startTime)/1000;
-      var movieId = roomData.movieId; 
-
-      $timeout(function(){
-        // console.log('Inisde setTimeout');
-
-        $window.videoPlayer.playVideo().seekTo(timeDiff);
-
-      }, 1000);
+      $window.startTime = new Date(roomData.updated_at).getTime(); 
+      $window.movieId = roomData.movieId; 
       // $window.alert('whatsup!');
       // $window.playVideo();
       // console.log("TEST ----> inside of chatController.getMessage. timeDiff=", (curTime - startTime)/1000);
@@ -56,10 +47,17 @@ angular.module('movieChatter', [])
 
     /******** SET YOUTUBE VARS ***********/
 }) //playerController()
-.controller('chatController', function($scope, $http, $filter, userHelper){
+.controller('chatController', function($scope, $http, $filter, $timeout, userHelper, roomHelper){
   
   $scope.username = userHelper.getUsername(); // Store username 
-
+  if($scope.username!==''){ //func: play video if username has been set
+    $scope.showSignin = false; // Store username 
+    $timeout(function(){
+      roomHelper.playVideo();
+    }, 1200);
+  }else{
+    $scope.showSignin = false; // Store username 
+  } //if
 
   var socket = io.connect("http://127.0.0.1:5999/");
   //func: 
@@ -79,12 +77,33 @@ angular.module('movieChatter', [])
     var username = $scope.username;
     var message = $scope.message;
 
-    userHelper.setUsername(username);// store username
-    $scope.message = ''; //reset message
+    if(message === ''){
+      alert("Message please?");
+    }else{
+      userHelper.setUsername(username);// store username
+      $scope.message = ''; //reset message
 
-    socket.emit('cs-newmsg', {username:username, message:message}); 
+      socket.emit('cs-newmsg', {username:username, message:message});       
+    } //if
+  }; //submitMessage()
 
-  };
+  $scope.submitUsername = function(){
+    var username = $scope.username;
+    // var message = $scope.message;
+
+    if(username === ''){
+      alert("Name?");
+    }else{
+      userHelper.setUsername(username);// store username
+      // $scope.message = ''; //reset message
+      socket.emit('signin', {username:username});       
+      $scope.showSignin = false;
+    } //if
+  }; //submitMessage()
+
+  socket.on('signinComplete', function(data){
+    roomHelper.playVideo();    
+  });
 
   
   //func: set messages array
@@ -114,7 +133,7 @@ factory('userHelper', function(){
   return {setUsername:setUsername, getUsername:getUsername};
 
 }) //factory.userHelper()
-.factory('roomHelper', function($http, $q){  
+.factory('roomHelper', function($http, $q, $window){  
   var setRoomname = function(roomname){
     if(typeof(Storage) !== "undefined") { //if there is browser support
       localStorage.movieChatterRoomname = roomname; 
@@ -129,7 +148,38 @@ factory('userHelper', function(){
     return localStorage.movieChatterRoomname || ''; 
   }; //getRoomname()
 
-  return {setRoomname:setRoomname, getRoomname:getRoomname};
+  var restartVideo = function(){
+    $http({
+      method: 'POST',
+      // url: '../../server/links/linkRoutes',
+      url: '/room', 
+      data: {}
+    })
+    .then(function (resp) {
+
+    }); //$http set messages
+  }; //restartVideo()
+
+  var playVideo = function(){
+    $window.videoPlayer.loadVideoById($window.movieId).pauseVideo();
+    var curTime = new Date().getTime(); 
+    var timeDiff = (curTime - $window.startTime)/1000;
+    // console.log('Inisde setTimeout');
+    var movieLength = $window.videoPlayer.getDuration();
+    if(timeDiff>movieLength){ //movie is over, start playing from beginning
+      $window.videoPlayer.playVideo();
+      roomHelper.restartVideo();
+    }else{
+      $window.videoPlayer.playVideo().seekTo(timeDiff);
+    }
+  }; //playVideo()
+
+  return {
+    setRoomname:setRoomname, 
+    getRoomname:getRoomname, 
+    playVideo:playVideo, 
+    restartVideo:restartVideo
+  }; //return
 
 }) //factory.roomHelper()
 .run(function ($rootScope, $location) {

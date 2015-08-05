@@ -30,10 +30,7 @@ module.exports = function(app){
       messageController.retrieve(req, res);
     })
     .post(function(req, res){ //add new message to database
-      // console.log('TEST ------> inside of message.post()');
-      
-      messageController.addNew(req, res)
-      // res.end('hello world!'); 
+      messageController.restartVideo(req, res);
     });
 
   app.route('/room')
@@ -44,9 +41,10 @@ module.exports = function(app){
       roomController.getLobby(req, res); //MVP: just get the Lobby
     })
     .post(function(req, res){ //add new message to database
+      console.log('TEST ------> inside of message.POST()');
       // console.log('TEST ------> inside of message.post()');
       
-      messageController.addNew(req, res)
+      roomController.restartVideo()
       // res.end('hello world!'); 
     });
 };
