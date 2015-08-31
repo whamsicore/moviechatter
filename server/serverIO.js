@@ -15,7 +15,7 @@ module.exports = function(io){
     
     // join main chatroom
 
-    socket.on('signin', function(data){
+    socket.on('cs-signin', function(data){
       var username = data.username;
       socket.username = username; 
       

@@ -96,7 +96,7 @@ angular.module('movieChatter', [])
     }else{
       userHelper.setUsername(username);// store username
       // $scope.message = ''; //reset message
-      socket.emit('signin', {username:username});       
+      socket.emit('cs-signin', {username:username});       
       $scope.showSignin = false;
     } //if
   }; //submitMessage()
